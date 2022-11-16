@@ -1,0 +1,36 @@
+.search-wrapper{
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
+}
+
+input{
+    font-size: 1rem;
+}
+
+.product-cards{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 10px;
+    margin: 20px;
+}
+
+.card{
+    background-color: white;
+    border: 3px solid #FFB30E;
+    padding: 5px;
+}
+
+.card > .header{
+    margin-bottom: .25rem;
+}
+
+.card > .body{
+    font-size: .8rem;
+    color: black;
+    padding: 5px;
+}
+
+.hide{
+    display: none;
+}
