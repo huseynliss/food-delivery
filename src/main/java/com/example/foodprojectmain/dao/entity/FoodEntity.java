@@ -4,10 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "products_main")
@@ -16,13 +14,17 @@ import javax.persistence.Table;
 @NoArgsConstructor
 public class FoodEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private Double price;
     private String currency;
     private String image;
-    private String location;
-    @Column(name ="restaurant_logo")
-    private String restaurantLogo;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "location_id", referencedColumnName = "id", insertable = false, updatable = false, nullable = false)
+    private LocationEntity locationEntity;
+
+
+
 
 }

@@ -4053,7 +4053,7 @@ fieldset:disabled .btn {
 
 .btn-outline-light:hover {
   color: #616161;
-  background-color: #F9FAFD;
+  background-color: rgb(255,179,14);
   border-color: #F9FAFD;
 }
 
@@ -4072,7 +4072,7 @@ fieldset:disabled .btn {
 .btn-check:checked + .btn-outline-light:focus,
 .btn-check:active + .btn-outline-light:focus, .btn-outline-light:active:focus, .btn-outline-light.active:focus, .btn-outline-light.dropdown-toggle.show:focus {
   -webkit-box-shadow: 0 0 0 0 rgba(249, 250, 253, 0.5);
-  box-shadow: 0 0 0 0 rgba(249, 250, 253, 0.5);
+  box-shadow: 0 0 0 0 rgb(255,179,14);
 }
 
 .btn-outline-light:disabled, .btn-outline-light.disabled {

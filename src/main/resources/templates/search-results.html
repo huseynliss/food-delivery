@@ -1,37 +1,858 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Search Results</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
-          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous"/>
-    <link href="/assets/css/search-style.css" rel="stylesheet"/>
+    <!--    <link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css}"-->
+    <!--          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous"-->
+    <!--          rel="stylesheet"/>-->
+    <link th:href="@{/assets/css/search-style.css}" rel="stylesheet"/>
+    <link th:href="@{/assets/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css}" rel="stylesheet">
 </head>
 <body>
-<div class="container-fluid text-white py-5" style="background-color: #FFB30E">
-    <h1 class="text-center">Search Products</h1>
+<nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #FFB30E">
+    <div class="container">
+        <a class="navbar-brand" href="#"><img class="d-inline-block" style="background-color: white; padding: 3px"
+                                              src="/assets/img/gallery/logo.svg"
+                                              alt="logo"/><span
+                style="color: white; margin-left: 5px; font-weight: 700; font-size: x-large">FoodwaGon</span></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="http://localhost:8081/index" style="color: white; font-weight: 555; font-size: large">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" style="color: white; font-weight: 555; font-size: large">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" style="color: white; font-weight: 555; font-size: large">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" style="color: white; font-weight: 555; font-size: large">Login</a>
+                </li>
+                <li class="nav-item basket" style="background-color:white">
+                    <a class="nav-link" href="#" style="color: #FFB30E; font-weight: 555; font-size: large">
+                        <ion-icon name="basket"></ion-icon>
+                        Cart <span>0</span></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid text-white py-5" style="background-color: #FFB30E; height: 120px">
+    <h1 class="text-center" style="color: white; padding-top: 10px">Search Products</h1>
 </div>
-<div class="container col-6 mt-5">
-    <input type="text" class="form-control mb-5 p-3" placeholder="Search Here..." id="search-input">
+
+<div class="col-6 mt-5" style="width: 75%; float: right">
+    <input type="text" class="container form-control mb-5 p-3" style="width: 200px; margin-left: 220px"
+           placeholder="Search Here..."
+           id="search-input">
+    <div style="margin-left: 23px" id="myBtnContainer">
+        <button class="btnMain active" onclick="filterSelectionButton('')">Show all</button>
+        <button class="btnMain" onclick="filterSelectionButton('burger')">Burgers</button>
+        <button class="btnMain" onclick="filterSelectionButton('spaghetti')">Spaghetti</button>
+        <button class="btnMain" onclick="filterSelectionButton('salad')">Salads</button>
+        <button class="btnMain" onclick="filterSelectionButton('sushi')">Sushi</button>
+        <button class="btnMain" onclick="filterSelectionButton('cake')">Cakes</button>
+        <button class="btnMain" onclick="filterSelectionButton('soup')">Soups</button>
+        <button class="btnMain" onclick="filterSelectionButton('pizza')">Pizzas</button>
+
+    </div>
 </div>
-<div class="product-cards">
-    <div class="card" th:each="product : ${AllProducts}" style="height: 300px; border-radius: 20px">
+<div class="wrapper">
+    <header>
+        <h2>Price Range</h2>
+        <p>Use slider or enter min and max price</p>
+    </header>
+    <div class="price-input">
+        <div class="field">
+            <span>Min</span>
+            <input type="number" class="input-min" value="0">
+        </div>
+        <div class="separator">-</div>
+        <div class="field">
+            <span>Max</span>
+            <input type="number" class="input-max" value="20">
+        </div>
+    </div>
+    <div class="slider">
+        <div class="progress"></div>
+    </div>
+    <div class="range-input">
+        <input type="range" class="range-min" min="0" max="20" value="0" step="1">
+        <input type="range" class="range-max" min="0" max="20" value="20" step="1">
+    </div>
+</div>
+<div class="product-cards" style="width: 97%">
+    <div class="card" th:each="product : ${allProducts}" style="border-radius: 20px; border: 3px solid #FFB30E">
         <img th:src="${'/'+ product.getImage()}" style="height:140px; border-radius: 10px">
         <div class="body">
-            <h5 id="productName" th:text="${product.getName()}" style="font-family: Cambria; margin: 0px; font-weight: 700"/>
+            <h5 id="productName" th:text="${product.getName()}"
+                style="font-family: Cambria; margin: 0px; font-weight: 700"/>
             <div>
                 <img src="/assets/img/gallery/location.png" style="width: 15px; height: 18px; margin-bottom: 7px">
-            <span th:text="${product.getLocation()}" style="font-size: 17.5px; color: #FFB30E; font-family: Source Sans Pro"/>
+                <span id="productLocation" th:text="${product.getLocationEntity().location}"
+                      style="font-size: 17.5px; color: #FFB30E; font-family: Source Sans Pro"/>
             </div>
-            <span th:text="${product.getCurrency()+product.getPrice()}" style="font-size: 18px; font-family: Source Sans Pro; font-weight: 800"/>
-            <div style="padding-bottom: 5px"><button type="button" class="btn btn-outline-warning container">Add to Cart</button></div>
+            <span id="productPrice" th:text="${product.getPrice() + product.getCurrency()}"
+                  style="font-size: 18px; font-family: Source Sans Pro; font-weight: 800"/>
+            <div style="padding-bottom: 5px">
+                <button type="button" class="btn btn-outline-warning container add-to-cart">Add to Cart</button>
+            </div>
         </div>
     </div>
 </div>
-<script src="/assets/js/search.js"></script>
+<footer class="text-center text-white" style="background-color: #FFB30E; width: 100%">
+    <!-- Grid container -->
+    <div class="container p-4 pb-0">
+        <!-- Section: CTA -->
+        <section class="">
+            <p class="d-flex justify-content-center align-items-center">
+                <span class="me-3">Register for free</span>
+                <button type="button" class="btn btn-outline-light btn-rounded">
+                    Sign up!
+                </button>
+            </p>
+        </section>
+        <!-- Section: CTA -->
+    </div>
+    <!-- Grid container -->
+
+    <!-- Copyright -->
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+        © 2020 Copyright:
+        <a class="text-white" href="https://mdbootstrap.com/">MDBootstrap.com</a>
+    </div>
+    <!-- Copyright -->
+</footer>
+<!-- Footer -->
+
+
+<script th:src="@{https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js}"></script>
+<script th:src="@{/assets/js/search.js}"></script>
+<script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
+
+<!--<script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js}"></script>-->
+
+<script th:inline="javascript">
+    //Searching with PathVariable
+
+    var productName = [[${productName}]];
+    const listProducts = document.querySelectorAll("#productName");
+    listProducts.forEach((item) => {
+        if (productName != null) {
+            if (item.textContent.toLowerCase().includes(productName.toLowerCase().toString())) {
+                item.parentElement.parentElement.style.display = ""
+            } else {
+                item.parentElement.parentElement.style.display = "none"
+            }
+        }
+
+    })
+
+    //--------------------Add To Cart-------------------------------------------
+
+    let products = [{
+        name: [[${allProducts[0].getName()}]],
+        image:[[${allProducts[0].getImage()}]],
+        tag: "id" + Math.random().toString(16).slice(2),
+        price: [[${allProducts[0].getPrice()}]],
+        inCart: 0
+    },
+        {
+            name: [[${allProducts[1].getName()}]],
+            image:[[${allProducts[1].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[1].getPrice()}]],
+            inCart: 0
+        },
+        {
+            name: [[${allProducts[2].getName()}]],
+            image:[[${allProducts[2].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[2].getPrice()}]],
+            inCart: 0
+        },
+        {
+            name: [[${allProducts[3].getName()}]],
+            image:[[${allProducts[3].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[3].getPrice()}]],
+            inCart: 0
+        },
+        {
+            name: [[${allProducts[4].getName()}]],
+            image:[[${allProducts[4].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[4].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[5].getName()}]],
+            image:[[${allProducts[5].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[5].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[6].getName()}]],
+            image:[[${allProducts[6].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[6].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[7].getName()}]],
+            image:[[${allProducts[7].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[7].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[8].getName()}]],
+            image:[[${allProducts[8].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[8].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[9].getName()}]],
+            image:[[${allProducts[9].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[9].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[10].getName()}]],
+            image:[[${allProducts[10].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[10].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[11].getName()}]],
+            image:[[${allProducts[11].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[11].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[12].getName()}]],
+            image:[[${allProducts[12].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[12].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[13].getName()}]],
+            image:[[${allProducts[13].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[13].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[14].getName()}]],
+            image:[[${allProducts[14].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[14].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[15].getName()}]],
+            image:[[${allProducts[15].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[15].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[16].getName()}]],
+            image:[[${allProducts[16].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[16].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[17].getName()}]],
+            image:[[${allProducts[17].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[17].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[18].getName()}]],
+            image:[[${allProducts[18].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[18].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[19].getName()}]],
+            image:[[${allProducts[19].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[19].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[20].getName()}]],
+            image:[[${allProducts[20].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[20].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[21].getName()}]],
+            image:[[${allProducts[21].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[21].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[22].getName()}]],
+            image:[[${allProducts[22].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[22].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[23].getName()}]],
+            image:[[${allProducts[23].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[23].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[24].getName()}]],
+            image:[[${allProducts[24].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[24].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[25].getName()}]],
+            image:[[${allProducts[25].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[25].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[26].getName()}]],
+            image:[[${allProducts[26].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[26].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[27].getName()}]],
+            image:[[${allProducts[27].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[27].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[28].getName()}]],
+            image:[[${allProducts[28].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[28].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[29].getName()}]],
+            image:[[${allProducts[29].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[29].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[30].getName()}]],
+            image:[[${allProducts[30].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[30].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[31].getName()}]],
+            image:[[${allProducts[31].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[31].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[32].getName()}]],
+            image:[[${allProducts[32].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[32].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[33].getName()}]],
+            image:[[${allProducts[33].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[33].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[34].getName()}]],
+            image:[[${allProducts[34].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[34].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[35].getName()}]],
+            image:[[${allProducts[35].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[35].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[36].getName()}]],
+            image:[[${allProducts[36].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[36].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[37].getName()}]],
+            image:[[${allProducts[37].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[37].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[38].getName()}]],
+            image:[[${allProducts[38].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[38].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[39].getName()}]],
+            image:[[${allProducts[39].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[39].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[40].getName()}]],
+            image:[[${allProducts[40].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[40].getPrice()}]],
+            inCart: 0
+        },
+        {
+            name: [[${allProducts[41].getName()}]],
+            image:[[${allProducts[41].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[41].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[42].getName()}]],
+            image:[[${allProducts[42].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[42].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[43].getName()}]],
+            image:[[${allProducts[43].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[43].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[44].getName()}]],
+            image:[[${allProducts[44].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[44].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[45].getName()}]],
+            image:[[${allProducts[45].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[45].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[46].getName()}]],
+            image:[[${allProducts[46].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[46].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[47].getName()}]],
+            image:[[${allProducts[47].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[47].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[48].getName()}]],
+            image:[[${allProducts[48].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[48].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[49].getName()}]],
+            image:[[${allProducts[49].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[49].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[50].getName()}]],
+            image:[[${allProducts[50].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[50].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[51].getName()}]],
+            image:[[${allProducts[51].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[51].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[52].getName()}]],
+            image:[[${allProducts[52].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[52].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[53].getName()}]],
+            image:[[${allProducts[53].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[53].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[54].getName()}]],
+            image:[[${allProducts[54].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[54].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[55].getName()}]],
+            image:[[${allProducts[55].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[55].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[56].getName()}]],
+            image:[[${allProducts[56].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[56].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[57].getName()}]],
+            image:[[${allProducts[57].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[57].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[58].getName()}]],
+            image:[[${allProducts[58].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[58].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[59].getName()}]],
+            image:[[${allProducts[59].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[59].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[60].getName()}]],
+            image:[[${allProducts[60].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[60].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[61].getName()}]],
+            image:[[${allProducts[61].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[61].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[62].getName()}]],
+            image:[[${allProducts[62].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[62].getPrice()}]],
+            inCart: 0
+        }
+        ,
+        {
+            name: [[${allProducts[63].getName()}]],
+            image:[[${allProducts[63].getImage()}]],
+            tag: "id" + Math.random().toString(16).slice(2),
+            price: [[${allProducts[63].getPrice()}]],
+            inCart: 0
+        }
+    ]
+
+    let carts = document.querySelectorAll(".add-to-cart");
+
+    for (let x = 0; x < carts.length; x++) {
+        carts[x].addEventListener("click", () => {
+            cartNumbers(products[x]);
+            totalCost(products[x]);
+        })
+    }
+
+    function onLoadCartNumbers() {
+        let productNumbers = localStorage.getItem("cartNumbers");
+
+        document.querySelector(".basket span").textContent = productNumbers;
+    }
+
+
+    function cartNumbers(product) {
+        let productNumbers = localStorage.getItem("cartNumbers");
+
+        productNumbers = parseInt(productNumbers);
+
+        if (productNumbers) {
+            localStorage.setItem("cartNumbers", productNumbers + 1);
+            document.querySelector(".basket span").textContent = productNumbers + 1;
+        } else {
+            localStorage.setItem("cartNumbers", 1);
+            document.querySelector(".basket span").textContent = 1;
+        }
+        setItems(product);
+    }
+
+    function setItems(product) {
+        let cartItems = localStorage.getItem('productsInCart');
+        cartItems = JSON.parse(cartItems);
+
+        if (cartItems != null) {
+            if (cartItems[product.tag] == undefined) {
+                cartItems = {
+                    ...cartItems,
+                    [product.tag]: product
+                }
+            }
+            cartItems[product.tag].inCart += 1;
+        } else {
+            product.inCart = 1;
+            cartItems = {
+                [product.tag]: product
+            }
+        }
+
+        localStorage.setItem("productsInCart", JSON.stringify(cartItems));
+    }
+
+    const round = (number, decimalPlaces) => {
+        const factorOfTen = Math.pow(10, decimalPlaces)
+        return Math.round(number * factorOfTen) / factorOfTen
+    }
+
+
+
+    function totalCost(product) {
+        let cartCost = localStorage.getItem("totalCost")
+
+        if (cartCost != null) {
+            cartCost = parseFloat(cartCost);
+            localStorage.setItem("totalCost", round(cartCost + product.price, 2));
+        } else {
+            localStorage.setItem("totalCost", product.price);
+        }
+    }
+
+    onLoadCartNumbers();
+
+</script>
+<script>
+    // --------------------------------------Price Range------------------------------------------------------
+    const rangeInput = document.querySelectorAll(".range-input input"),
+        priceInput = document.querySelectorAll(".price-input input"),
+        range = document.querySelector(".slider .progress");
+    let priceGap = 1;
+
+    priceInput.forEach((input) => {
+        input.addEventListener("input", (e) => {
+            let minPrice = parseFloat(priceInput[0].value),
+                maxPrice = parseFloat(priceInput[1].value);
+
+            if (maxPrice - minPrice >= priceGap && maxPrice <= rangeInput[1].max) {
+                if (e.target.className === "input-min") {
+                    rangeInput[0].value = minPrice;
+                    range.style.left = (minPrice / rangeInput[0].max) * 100 + "%";
+                } else {
+                    rangeInput[1].value = maxPrice;
+                    range.style.right = 100 - (maxPrice / rangeInput[1].max) * 100 + "%";
+                }
+            }
+            const productsPriceList = document.querySelectorAll("#productPrice");
+            productsPriceList.forEach((item) => {
+                if (parseFloat(item.textContent) >= minPrice && parseFloat(item.textContent) <= maxPrice) {
+                    item.parentElement.parentElement.style.display = ""
+                } else {
+                    item.parentElement.parentElement.style.display = "none"
+                }
+            })
+
+
+        });
+    });
+
+    rangeInput.forEach((input) => {
+        input.addEventListener("input", (e) => {
+            let minVal = parseFloat(rangeInput[0].value),
+                maxVal = parseFloat(rangeInput[1].value);
+
+            if (maxVal - minVal < priceGap) {
+                if (e.target.className === "range-min") {
+                    rangeInput[0].value = maxVal - priceGap;
+                } else {
+                    rangeInput[1].value = minVal + priceGap;
+                }
+            } else {
+                priceInput[0].value = minVal;
+                priceInput[1].value = maxVal;
+                range.style.left = (minVal / rangeInput[0].max) * 100 + "%";
+                range.style.right = 100 - (maxVal / rangeInput[1].max) * 100 + "%";
+            }
+            const productsPriceList = document.querySelectorAll("#productPrice");
+
+            productsPriceList.forEach((item) => {
+                if (parseFloat(item.textContent) >= minVal && parseFloat(item.textContent) <= maxVal) {
+                    item.parentElement.parentElement.style.display = ""
+                } else {
+                    item.parentElement.parentElement.style.display = "none"
+                }
+            })
+        });
+    });
+    //---------------------------------Filter With Button-------------------
+
+    document.querySelector('#search-input').addEventListener('input', filterList);
+
+    function filterList() {
+        const allProducts = document.querySelectorAll('.card');
+        allProducts.forEach((item) => {
+            item.style.display = 'none'
+        })
+
+        const searchInput = document.querySelector('#search-input');
+        const filter = searchInput.value.toLowerCase();
+        const nameListItems = document.querySelectorAll('#productName');
+        const locationListItems = document.querySelectorAll('#productLocation');
+
+        for (let i = 0; i < nameListItems.length || i < locationListItems.length; i++){
+            if (nameListItems[i].textContent.toLowerCase().includes(filter.toLowerCase())){
+                nameListItems[i].parentElement.parentElement.style.display = "";
+            }
+            if (locationListItems[i].textContent.toLowerCase().includes(filter.toLowerCase())){
+                locationListItems[i].parentElement.parentElement.parentElement.style.display = "";
+            }
+        }
+    }
+    //---------------------------------------------------------
+    function filterSelectionButton(name){
+
+        const nameListItems = document.querySelectorAll('#productName');
+
+        nameListItems.forEach((item) => {
+                if (item.textContent.toLowerCase().includes(name.toString().toLowerCase())) {
+                    item.parentElement.parentElement.style.display = ""
+                } else {
+                    item.parentElement.parentElement.style.display = "none"
+                }
+            }
+        )}
+
+    const btnContainer = document.getElementById("myBtnContainer");
+    const btns = btnContainer.getElementsByClassName("btnMain");
+    for (var i = 0; i < btns.length; i++) {
+        btns[i].addEventListener("click", function() {
+            var current = document.querySelectorAll(".active");
+            current.forEach(item => item.className=item.className.replace(" active", ""))
+            this.className += " active";
+        });
+    }
+</script>
 </body>
 
 </html>
