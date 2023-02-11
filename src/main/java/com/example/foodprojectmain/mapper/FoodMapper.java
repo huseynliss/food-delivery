@@ -15,7 +15,7 @@ public abstract class FoodMapper {
 
 
     public FoodDto mapToDto(FoodEntity foodEntity) {
-        return FoodDto.builder().name(foodEntity.getName())
+        return FoodDto.builder().id(foodEntity.getId()).name(foodEntity.getName())
                 .price(foodEntity.getPrice())
                 .currency(foodEntity.getCurrency())
                 .image(foodEntity.getImage()).locationEntity(foodEntity.getLocationEntity()).build();

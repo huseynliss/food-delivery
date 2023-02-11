@@ -7,8 +7,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <link href="/assets/css/search-style.css" rel="stylesheet"/>
+    <link href="/assets/css/add-to-cart.css" rel="stylesheet"/>
     <link href="/assets/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+
 </head>
 <body>
 
@@ -29,18 +32,27 @@
                        style="color: white; font-weight: 555; font-size: large">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#" style="color: white; font-weight: 555; font-size: large">About</a>
+                    <a class="nav-link" href="http://localhost:8081/index/search-results" style="color: white; font-weight: 555; font-size: large">Order Food</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#" style="color: white; font-weight: 555; font-size: large">Contact</a>
+                    <a class="nav-link" href="http://localhost:8081/about" style="color: white; font-weight: 555; font-size: large">About</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#" style="color: white; font-weight: 555; font-size: large">Login</a>
+                    <a class="nav-link" href="http://localhost:8081/contact" style="color: white; font-weight: 555; font-size: large">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="http://localhost:8081/login" style="color: white; font-weight: 555; font-size: large">Login</a>
                 </li>
                 <li class="nav-item basket" style="background-color:white">
-                    <a class="nav-link" href="#" style="color: #FFB30E; font-weight: 555; font-size: large">
-                        <ion-icon name="basket"></ion-icon>
-                        Cart <span>0</span></a>
+                    <a class="nav-link" href="http://localhost:8081/index/add-to-cart" style="color: #FFB30E; font-weight: 555; font-size: large">
+                        <i class="fas fa-shopping-cart"></i>
+                        Cart <span id="numberOfProducts">0</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="http://localhost:8081/logout" style="color: white; font-weight: 555; font-size: large">Logout</a>
+                </li>
+                <li class="nav-item">
+                    <span style="color: orange; background-color: white; padding: 10px 20px; border-radius: 10px; font-size: 20px; margin-left: 25px; font-weight: bold" th:if="${#request.remoteUser}" th:text="${#request.remoteUser}" />
                 </li>
             </ul>
         </div>
@@ -50,532 +62,39 @@
 <div class="products-container" style="margin-top: 130px">
     <div class="product-header">
         <h5 class="products-title">PRODUCT</h5>
-        <h5 class="price">PRICE</h5>
-        <h5 class="quantity">QUANTITY</h5>
+        <h5 class="price" style="padding-left: 45px">PRICE</h5>
+        <h5 class="quantity" style="padding-left: 45px">QUANTITY</h5>
         <h5 class="total">TOTAL</h5>
     </div>
     <div class="products"></div>
+    <button type="button" class="complete-order-btn" onClick="alert('Your order is complete')" style="margin-bottom: 10px">Complete Order</button>
 </div>
+<footer class="text-center text-white" style="background-color: #FFB30E; width: 100%">
+    <!-- Grid container -->
+    <div class="container p-4 pb-0">
+        <!-- Section: CTA -->
+        <section class="">
+            <p class="d-flex justify-content-center align-items-center">
+                <span class="me-3">Register for free</span>
+                <a href="http://localhost:8081/register"><button type="button" class="btn btn-outline-light btn-rounded">
+                    Sign up!
+                </button></a>
+            </p>
+        </section>
+        <!-- Section: CTA -->
+    </div>
+    <!-- Grid container -->
 
+    <!-- Copyright -->
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+        © 2020 Copyright:
+        <a class="text-white" href="https://mdbootstrap.com/">MDBootstrap.com</a>
+    </div>
+    <!-- Copyright -->
+</footer>
 <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
 <script th:inline="javascript">    //--------------------Add To Cart-------------------------------------------
 
-let products = [{
-    name: [[${allProducts[0].getName()}]],
-    image: [[${allProducts[0].getImage()}]],
-    tag: "id" + Math.random().toString(16).slice(2),
-    price: [[${allProducts[0].getPrice()}]],
-    inCart: 0
-},
-    {
-        name: [[${allProducts[1].getName()}]],
-        image: [[${allProducts[1].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[1].getPrice()}]],
-        inCart: 0
-    },
-    {
-        name: [[${allProducts[2].getName()}]],
-        image: [[${allProducts[2].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[2].getPrice()}]],
-        inCart: 0
-    },
-    {
-        name: [[${allProducts[3].getName()}]],
-        image: [[${allProducts[3].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[3].getPrice()}]],
-        inCart: 0
-    },
-    {
-        name: [[${allProducts[4].getName()}]],
-        image: [[${allProducts[4].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[4].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[5].getName()}]],
-        image: [[${allProducts[5].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[5].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[6].getName()}]],
-        image: [[${allProducts[6].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[6].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[7].getName()}]],
-        image: [[${allProducts[7].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[7].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[8].getName()}]],
-        image: [[${allProducts[8].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[8].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[9].getName()}]],
-        image: [[${allProducts[9].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[9].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[10].getName()}]],
-        image: [[${allProducts[10].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[10].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[11].getName()}]],
-        image: [[${allProducts[11].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[11].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[12].getName()}]],
-        image: [[${allProducts[12].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[12].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[13].getName()}]],
-        image: [[${allProducts[13].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[13].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[14].getName()}]],
-        image: [[${allProducts[14].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[14].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[15].getName()}]],
-        image: [[${allProducts[15].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[15].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[16].getName()}]],
-        image: [[${allProducts[16].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[16].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[17].getName()}]],
-        image: [[${allProducts[17].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[17].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[18].getName()}]],
-        image: [[${allProducts[18].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[18].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[19].getName()}]],
-        image: [[${allProducts[19].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[19].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[20].getName()}]],
-        image: [[${allProducts[20].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[20].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[21].getName()}]],
-        image: [[${allProducts[21].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[21].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[22].getName()}]],
-        image: [[${allProducts[22].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[22].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[23].getName()}]],
-        image: [[${allProducts[23].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[23].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[24].getName()}]],
-        image: [[${allProducts[24].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[24].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[25].getName()}]],
-        image: [[${allProducts[25].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[25].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[26].getName()}]],
-        image: [[${allProducts[26].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[26].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[27].getName()}]],
-        image: [[${allProducts[27].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[27].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[28].getName()}]],
-        image: [[${allProducts[28].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[28].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[29].getName()}]],
-        image: [[${allProducts[29].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[29].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[30].getName()}]],
-        image: [[${allProducts[30].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[30].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[31].getName()}]],
-        image: [[${allProducts[31].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[31].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[32].getName()}]],
-        image: [[${allProducts[32].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[32].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[33].getName()}]],
-        image: [[${allProducts[33].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[33].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[34].getName()}]],
-        image: [[${allProducts[34].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[34].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[35].getName()}]],
-        image: [[${allProducts[35].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[35].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[36].getName()}]],
-        image: [[${allProducts[36].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[36].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[37].getName()}]],
-        image: [[${allProducts[37].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[37].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[38].getName()}]],
-        image: [[${allProducts[38].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[38].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[39].getName()}]],
-        image: [[${allProducts[39].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[39].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[40].getName()}]],
-        image: [[${allProducts[40].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[40].getPrice()}]],
-        inCart: 0
-    },
-    {
-        name: [[${allProducts[41].getName()}]],
-        image: [[${allProducts[41].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[41].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[42].getName()}]],
-        image: [[${allProducts[42].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[42].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[43].getName()}]],
-        image: [[${allProducts[43].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[43].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[44].getName()}]],
-        image: [[${allProducts[44].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[44].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[45].getName()}]],
-        image: [[${allProducts[45].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[45].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[46].getName()}]],
-        image: [[${allProducts[46].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[46].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[47].getName()}]],
-        image: [[${allProducts[47].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[47].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[48].getName()}]],
-        image: [[${allProducts[48].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[48].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[49].getName()}]],
-        image: [[${allProducts[49].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[49].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[50].getName()}]],
-        image: [[${allProducts[50].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[50].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[51].getName()}]],
-        image: [[${allProducts[51].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[51].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[52].getName()}]],
-        image: [[${allProducts[52].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[52].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[53].getName()}]],
-        image: [[${allProducts[53].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[53].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[54].getName()}]],
-        image: [[${allProducts[54].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[54].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[55].getName()}]],
-        image: [[${allProducts[55].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[55].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[56].getName()}]],
-        image: [[${allProducts[56].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[56].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[57].getName()}]],
-        image: [[${allProducts[57].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[57].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[58].getName()}]],
-        image: [[${allProducts[58].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[58].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[59].getName()}]],
-        image: [[${allProducts[59].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[59].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[60].getName()}]],
-        image: [[${allProducts[60].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[60].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[61].getName()}]],
-        image: [[${allProducts[61].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[61].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[62].getName()}]],
-        image: [[${allProducts[62].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[62].getPrice()}]],
-        inCart: 0
-    }
-    ,
-    {
-        name: [[${allProducts[63].getName()}]],
-        image: [[${allProducts[63].getImage()}]],
-        tag: "id" + Math.random().toString(16).slice(2),
-        price: [[${allProducts[63].getPrice()}]],
-        inCart: 0
-    }
-]
-
-let carts = document.querySelectorAll(".add-to-cart");
-
-for (let x = 0; x < carts.length; x++) {
-    carts[x].addEventListener("click", () => {
-        cartNumbers(products[x]);
-        totalCost(products[x]);
-    })
-}
 
 function onLoadCartNumbers() {
     let productNumbers = localStorage.getItem("cartNumbers");
@@ -584,83 +103,201 @@ function onLoadCartNumbers() {
 }
 
 
-function cartNumbers(product) {
-    let productNumbers = localStorage.getItem("cartNumbers");
-
-    productNumbers = parseInt(productNumbers);
-
-    if (productNumbers) {
-        localStorage.setItem("cartNumbers", productNumbers + 1);
-        document.querySelector(".basket span").textContent = productNumbers + 1;
-    } else {
-        localStorage.setItem("cartNumbers", 1);
-        document.querySelector(".basket span").textContent = 1;
-    }
-    setItems(product);
-}
-
-function setItems(product) {
-    let cartItems = localStorage.getItem('productsInCart');
-    cartItems = JSON.parse(cartItems);
-
-    if (cartItems != null) {
-        if (cartItems[product.tag] == undefined) {
-            cartItems = {
-                ...cartItems,
-                [product.tag]: product
-            }
-        }
-        cartItems[product.tag].inCart += 1;
-    } else {
-        product.inCart = 1;
-        cartItems = {
-            [product.tag]: product
-        }
-    }
-
-    localStorage.setItem("productsInCart", JSON.stringify(cartItems));
-}
-
-const round = (number, decimalPlaces) => {
-    const factorOfTen = Math.pow(10, decimalPlaces)
-    return Math.round(number * factorOfTen) / factorOfTen
-}
-
-
-function totalCost(product) {
-    let cartCost = localStorage.getItem("totalCost")
-
-    if (cartCost != null) {
-        cartCost = parseFloat(cartCost);
-        localStorage.setItem("totalCost", round(cartCost + product.price, 2));
-    } else {
-        localStorage.setItem("totalCost", product.price);
-    }
-}
-
 function displayCart() {
     let cartItems = localStorage.getItem('productsInCart');
-
+    console.log(cartItems)
     cartItems = JSON.parse(cartItems);
-    let productContainer = document.querySelector(".products")
-
+    let productContainer = document.querySelector(".products");
+    let cartCost = localStorage.getItem("totalCost")
     if (cartItems && productContainer) {
         productContainer.innerHTML = "";
         Object.values(cartItems).map(item => {
             productContainer.innerHTML +=
-                `<div class="product">
-                    <ion-icon name="close-circle"></ion-icon>
+                `<div><div class="product" style="display: inline-block; width: 50%;">
+                    <a onClick="removeItem('${item.tag}')"><ion-icon name="close-circle"></ion-icon></a>
                     <img src="/${item.image}" style="height: 100px; width:100px">
                     <span style="width: 30px">${item.name}</span>
                 </div>
-                <div class="price">${item.price}</div>
-               `
+                <div class="price" style="display: inline-block; width: 10%; padding-left: 23px">${item.price}</div>
+               <div class="quantity" style="display: inline-block; width: 25%; padding-left: 27px">
+                   <a onClick="decreaseItems('${item.tag}')"><ion-icon name="arrow-dropleft-circle"></ion-icon></a>
+                    <span id="${item.tag}" class="numberOfItems">${item.inCart}</span>
+                   <a onClick="increaseItems('${item.tag}')"><ion-icon name="arrow-dropright-circle"></ion-icon></a>
+               </div>
+               <div class="productTotal" style="display: inline-block; width: 10%; padding-left: 34px" >
+               ${Math.round(item.inCart * item.price * Math.pow(10, 2)) / Math.pow(10, 2)}
+               </div></div>
+
+               `;
+
+        });
+        productContainer.innerHTML += `<div class="basketTotalContainer">
+        <h4 class="basketTotalTitle" style="display: inline-block;float: left; margin-left: 425px">Basket Total:</h4>
+        <h4 class="basketTotal" style="display: inline-block; float: right" >$${cartCost}</h4>
+        </div>`
 
 
-        })
     }
 }
 
+function increaseItems(itemTag) {
+    let cartItems = JSON.parse(localStorage.getItem('productsInCart'));
+    let cartCost = localStorage.getItem("totalCost")
+    let productNumbers = localStorage.getItem("cartNumbers")
+    let index = Object.values(cartItems).findIndex(item => item.tag === itemTag);
+
+    Object.values(cartItems)[index].inCart++;
+
+    let productTotal = document.querySelectorAll(".productTotal")
+    let products = document.querySelectorAll(".numberOfItems");
+    const totalCostOfProduct = Object.values(cartItems)[index].inCart * parseFloat(Object.values(cartItems)[index].price).toString();
+    for (let i = 0; i < products.length; i++) {
+        if (products[i].id === itemTag) {
+            products[i].innerHTML = Object.values(cartItems)[parseInt(index)].inCart;
+            productTotal[i].innerHTML = Math.round(totalCostOfProduct * Math.pow(10, 2)) / Math.pow(10, 2);
+        }
+    }
+
+    const newTotalCost = parseFloat(cartCost) + parseFloat(Object.values(cartItems)[parseInt(index)].price);
+    let costOfCart = document.querySelector(".basketTotal");
+    costOfCart.innerHTML = "$" + Math.round(newTotalCost * Math.pow(10, 2)) / Math.pow(10, 2)
+
+    productNumbers = parseInt(productNumbers);
+    productNumbers++;
+
+    document.querySelector("#numberOfProducts").innerHTML=productNumbers;
+
+    localStorage.setItem("cartNumbers", productNumbers.toString());
+    localStorage.setItem("totalCost", Math.round(newTotalCost * Math.pow(10, 2)) / Math.pow(10, 2));
+    localStorage.setItem("productsInCart", JSON.stringify(cartItems));
+}
+
+
+function decreaseItems(itemTag) {
+    let cartItems = JSON.parse(localStorage.getItem('productsInCart'));
+    let cartCost = localStorage.getItem("totalCost")
+    let productNumbers = localStorage.getItem("cartNumbers")
+    let index = Object.values(cartItems).findIndex(item => item.tag === itemTag);
+
+
+    if (Object.values(cartItems)[parseInt(index)].inCart <= 1) {
+
+
+        let products = document.querySelectorAll(".numberOfItems");
+        for (let i = 0; i < products.length; i++) {
+            if (products[i].id === itemTag) {
+                products[i].parentElement.parentElement.innerHTML = "";
+            }
+        }
+
+        let keys = Object.keys(cartItems);
+        let values = Object.values(cartItems);
+
+        keys.splice(index, 1);
+        values.splice(index, 1);
+
+        let newObject = {};
+        for (let i = 0; i < keys.length; i++) {
+            newObject[keys[i]] = values[i];
+        }
+        const newTotalCost = parseFloat(cartCost) - parseFloat(Object.values(cartItems)[parseInt(index)].price);
+        let costOfCart = document.querySelector(".basketTotal");
+        costOfCart.innerHTML = "$" + Math.round(newTotalCost * Math.pow(10, 2)) / Math.pow(10, 2)
+
+        productNumbers = parseInt(productNumbers);
+        if (productNumbers<=1){
+            localStorage.removeItem("cartNumbers")
+            document.querySelector("#numberOfProducts").innerHTML="";
+        }
+        else{
+            productNumbers--;
+            localStorage.setItem("cartNumbers", productNumbers);
+            document.querySelector("#numberOfProducts").innerHTML=productNumbers;
+        }
+
+
+
+        localStorage.setItem("totalCost", Math.round(newTotalCost * Math.pow(10, 2)) / Math.pow(10, 2));
+        localStorage.setItem("productsInCart", JSON.stringify(newObject));
+
+    } else {
+
+        Object.values(cartItems)[index].inCart--;
+
+
+        let productTotal = document.querySelectorAll(".productTotal")
+        let products = document.querySelectorAll(".numberOfItems");
+        const totalCostOfProduct = Object.values(cartItems)[index].inCart * parseFloat(Object.values(cartItems)[index].price).toString();
+        for (let i = 0; i < products.length; i++) {
+            if (products[i].id === itemTag) {
+                products[i].innerHTML = Object.values(cartItems)[parseInt(index)].inCart;
+                productTotal[i].innerHTML = Math.round(totalCostOfProduct * Math.pow(10, 2)) / Math.pow(10, 2);
+            }
+        }
+
+        const newTotalCost = parseFloat(cartCost) - parseFloat(Object.values(cartItems)[parseInt(index)].price);
+        let costOfCart = document.querySelector(".basketTotal");
+        costOfCart.innerHTML = "$" + Math.round(newTotalCost * Math.pow(10, 2)) / Math.pow(10, 2)
+
+        productNumbers = parseInt(productNumbers);
+        productNumbers--;
+
+        document.querySelector("#numberOfProducts").innerHTML=productNumbers
+
+
+        localStorage.setItem("cartNumbers", productNumbers);
+        localStorage.setItem("totalCost", Math.round(newTotalCost * Math.pow(10, 2)) / Math.pow(10, 2));
+        localStorage.setItem("productsInCart", JSON.stringify(cartItems));
+    }
+
+
+
+}
+function removeItem(itemTag) {
+    let cartItems = JSON.parse(localStorage.getItem('productsInCart'));
+    let cartCost = localStorage.getItem("totalCost")
+    let productNumbers = localStorage.getItem("cartNumbers")
+    let index = Object.values(cartItems).findIndex(item => item.tag === itemTag);
+
+    let products = document.querySelectorAll(".numberOfItems");
+    for (let i = 0; i < products.length; i++) {
+        if (products[i].id === itemTag) {
+            products[i].parentElement.parentElement.innerHTML = "";
+        }
+    }
+
+    let keys = Object.keys(cartItems);
+    let values = Object.values(cartItems);
+
+    keys.splice(index, 1);
+    values.splice(index, 1);
+
+    let newObject = {};
+    for (let i = 0; i < keys.length; i++) {
+        newObject[keys[i]] = values[i];
+    }
+    const x = parseFloat(Object.values(cartItems)[parseInt(index)].price) * parseFloat(Object.values(cartItems)[parseInt(index)].inCart);
+    const newTotalCost = parseFloat(cartCost) - x;
+    let costOfCart = document.querySelector(".basketTotal");
+    costOfCart.innerHTML = "$" + Math.round(newTotalCost * Math.pow(10, 2)) / Math.pow(10, 2);
+
+
+    productNumbers = parseInt(productNumbers);
+    if (productNumbers<=Object.values(cartItems)[parseInt(index)].inCart){
+        localStorage.removeItem("cartNumbers")
+        document.querySelector("#numberOfProducts").innerHTML="";
+    }
+    else{
+        productNumbers = productNumbers-parseInt(Object.values(cartItems)[parseInt(index)].inCart);
+        document.querySelector("#numberOfProducts").innerHTML=productNumbers
+        localStorage.setItem("cartNumbers", productNumbers);
+    }
+
+
+
+    localStorage.setItem("totalCost", Math.round(newTotalCost * Math.pow(10, 2)) / Math.pow(10, 2));
+    localStorage.setItem("productsInCart", JSON.stringify(newObject));
+}
 
 onLoadCartNumbers();
 displayCart();

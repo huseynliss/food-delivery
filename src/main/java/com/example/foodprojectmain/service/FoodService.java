@@ -1,19 +1,26 @@
 package com.example.foodprojectmain.service;
 
 import com.example.foodprojectmain.dao.entity.FoodEntity;
+import com.example.foodprojectmain.dao.entity.LocationEntity;
+import com.example.foodprojectmain.dao.repository.LocationRepository;
 import com.example.foodprojectmain.mapper.FoodMapper;
 import com.example.foodprojectmain.model.FoodDto;
 import com.example.foodprojectmain.dao.repository.FoodRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class FoodService {
     private final FoodRepository foodRepository;
 
-    public FoodService(FoodRepository foodRepository) {
+    private final LocationRepository locationRepository;
+
+
+    public FoodService(FoodRepository foodRepository, LocationRepository locationRepository) {
         this.foodRepository = foodRepository;
+        this.locationRepository = locationRepository;
     }
 
     public List<FoodDto> getFirstFourPopularItems() {
@@ -40,6 +47,18 @@ public class FoodService {
     }
 
 
+    public void saveProduct(FoodEntity foodEntity) {
+        foodEntity.setLocationId(locationRepository.findLastEntityId());
+        foodRepository.save(foodEntity);
+    }
+
+
+
+    public void deleteProduct(long id) {
+
+        foodRepository.deleteById(id);
+
+    }
 }
 
 

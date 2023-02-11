@@ -9,7 +9,7 @@ create table locations_main
 create table products_main
 (
     id integer generated always as identity,
-    location_id integer not null,
+    location_id integer,
     name     varchar not null,
     price    numeric,
     currency varchar,

@@ -228,22 +228,23 @@ input[type="range"]::-moz-range-thumb {
     margin: 0 auto;
 }
 .price{
+    margin-left: 10px;
     width: 15%;
     display: flex;
     align-items: center;
+
 }
 .products-title{
     width: 45%;
+
 }
 .quantity{
     width: 30%;
-
     display: flex;
     align-items: center;
 }
 .total{
     width: 10%;
-
     display: flex;
     align-items: center;
 }
@@ -254,4 +255,16 @@ input[type="range"]::-moz-range-thumb {
     align-items: center;
     border-bottom: 1px solid lightgray;
     padding: 10px 0;
+}
+.basketTotalContainer{
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    padding: 10px 0;
+}
+.basketTotalTitle{
+    width: 30%;
+}
+.basketTitle{
+    width: 10%;
 }

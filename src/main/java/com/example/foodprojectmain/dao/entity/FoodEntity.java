@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "products_main")
@@ -20,11 +19,10 @@ public class FoodEntity {
     private Double price;
     private String currency;
     private String image;
+    @Column(name = "location_id")
+    private Long locationId;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "location_id", referencedColumnName = "id", insertable = false, updatable = false, nullable = false)
     private LocationEntity locationEntity;
-
-
-
 
 }

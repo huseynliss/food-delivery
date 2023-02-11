@@ -31,7 +31,11 @@
     <!-- ===============================================-->
     <!--    Stylesheets-->
     <!-- ===============================================-->
+<!--    Bunu daxil etmesen headerin dizayni pozulur.-->
     <link href="assets/css/theme.css" rel="stylesheet"/>
+
+
+
 
 
 </head>
@@ -43,34 +47,52 @@
 <!--    Main Content-->
 <!-- ===============================================-->
 <main class="main" id="top">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" data-navbar-on-scroll="data-navbar-on-scroll">
-        <div class="container"><a class="navbar-brand d-inline-flex" href="#!"><img class="d-inline-block"
-                                                                                       src="assets/img/gallery/logo.svg"
-                                                                                       alt="logo"/><span
-                class="text-1000 fs-3 fw-bold ms-2 text-gradient">FoodwaGon</span></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"> </span>
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #FFB30E">
+        <div class="container">
+            <a class="navbar-brand" href="#"><img class="d-inline-block" style="background-color: white; padding: 3px"
+                                                  src="/assets/img/gallery/logo.svg"
+                                                  alt="logo"/><span
+                    style="color: white; margin-left: 5px; font-weight: 700; font-size: x-large">FoodwaGon</span></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+                    aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse border-top border-lg-0 my-2 mt-lg-0" id="navbarSupportedContent">
-                <div class="mx-auto pt-5 pt-lg-0 d-block d-lg-none d-xl-block">
-                    <p class="mb-0 fw-bold text-lg-center">Deliver to: <i
-                            class="fas fa-map-marker-alt text-warning mx-2"></i><span
-                            class="fw-normal">Current Location </span><span>Mirpur 1 Bus Stand, Dhaka</span></p>
-                </div>
-                <form class="d-flex mt-4 mt-lg-0 ms-lg-auto ms-xl-0">
-                    <div class="input-group-icon pe-2"><i class="fas fa-search input-box-icon text-primary"></i>
-                        <input class="form-control border-0 input-box bg-100" type="search" id="searchId"
-                               placeholder="Search Food"
-                               aria-label="Search">
-                    </div>
-                    <button class="btn btn-white shadow-warning text-warning" type="submit"><i
-                            class="fas fa-user me-2"></i><a href="http://localhost:8081/index/register">Login</a>
-                    </button>
-                </form>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="http://localhost:8081/index" style="color: white; font-weight: 555; font-size: large">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://localhost:8081/index/search-results" style="color: white; font-weight: 555; font-size: large">Order Food</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://localhost:8081/about" style="color: white; font-weight: 555; font-size: large">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://localhost:8081/contact" style="color: white; font-weight: 555; font-size: large">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://localhost:8081/login" style="color: white; font-weight: 555; font-size: large">Login</a>
+                    </li>
+                    <li class="nav-item basket" style="background-color:white">
+                        <a class="nav-link" href="http://localhost:8081/index/add-to-cart" style="color: #FFB30E; font-weight: 555; font-size: large">
+                            <i class="fas fa-shopping-cart"></i>
+                            Cart <span>0</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://localhost:8081/logout" style="color: white; font-weight: 555; font-size: large">Logout</a>
+                    </li>
+                    <li class="nav-item">
+                        <span style="color: orange; background-color: white; padding: 10px 20px; border-radius: 10px; font-size: 20px; margin-left: 25px; font-weight: bold" th:if="${#request.remoteUser}" th:text="${#request.remoteUser}" />
+                    </li>
+
+
+                </ul>
             </div>
         </div>
     </nav>
+
+
     <section class="py-5 overflow-hidden bg-primary" id="home">
         <div class="container">
             <div class="row flex-center">
@@ -83,59 +105,6 @@
                     <h1 class="display-1 fs-md-5 fs-lg-6 fs-xl-8 text-light">Are you starving?</h1>
                     <h1 class="text-800 mb-5 fs-4">Within a few clicks, find meals that<br class="d-none d-xxl-block"/>are
                         accessible near you</h1>
-                    <div class="card w-xxl-75">
-                        <div class="card-body">
-                            <nav>
-                                <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                                    <button class="nav-link active mb-3" id="nav-home-tab" data-bs-toggle="tab"
-                                            data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home"
-                                            aria-selected="true"><i class="fas fa-motorcycle me-2"></i>Delivery
-                                    </button>
-                                    <button class="nav-link mb-3" id="nav-profile-tab" data-bs-toggle="tab"
-                                            data-bs-target="#nav-profile" type="button" role="tab"
-                                            aria-controls="nav-profile" aria-selected="false"><i
-                                            class="fas fa-shopping-bag me-2"></i>Pickup
-                                    </button>
-                                </div>
-                            </nav>
-                            <div class="tab-content mt-3" id="nav-tabContent">
-                                <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
-                                     aria-labelledby="nav-home-tab">
-                                    <form class="row gx-2 gy-2 align-items-center">
-                                        <div class="col">
-                                            <div class="input-group-icon"><i
-                                                    class="fas fa-map-marker-alt text-danger input-box-icon"></i>
-                                                <label class="visually-hidden" for="inputDelivery">Address</label>
-                                                <input class="form-control input-box form-foodwagon-control"
-                                                       id="inputDelivery" type="text" placeholder="Enter Your Address"/>
-                                            </div>
-                                        </div>
-                                        <div class="d-grid gap-3 col-sm-auto">
-                                            <a href="http://localhost:8081/index/search-results">
-                                                <button class="btn btn-danger" type="button">Find Food</button>
-                                            </a>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="tab-pane fade" id="nav-profile" role="tabpanel"
-                                     aria-labelledby="nav-profile-tab">
-                                    <form class="row gx-4 gy-2 align-items-center">
-                                        <div class="col">
-                                            <div class="input-group-icon"><i
-                                                    class="fas fa-map-marker-alt text-danger input-box-icon"></i>
-                                                <label class="visually-hidden" for="inputPickup">Address</label>
-                                                <input class="form-control input-box form-foodwagon-control"
-                                                       id="inputPickup" type="text" placeholder="Enter Your Address"/>
-                                            </div>
-                                        </div>
-                                        <div class="d-grid gap-3 col-sm-auto">
-                                            <button class="btn btn-danger" type="submit">Find Food</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -284,7 +253,7 @@
                                                       th:text="${food.getCurrency()+food.getPrice()}"/>
                                             </div>
                                         </div>
-                                        <div class="d-grid gap-2"><a class="btn btn-lg btn-danger" href="#!"
+                                        <div class="d-grid gap-2"><a class="btn btn-lg btn-danger" th:href="'http://localhost:8081/index/search-results/'+ ${food.getName()}"
                                                                      role="button">Order now</a></div>
                                     </div>
                                 </div>
@@ -307,7 +276,7 @@
                                                       th:text="${food.getCurrency()+food.getPrice()}"/>
                                             </div>
                                         </div>
-                                        <div class="d-grid gap-2"><a class="btn btn-lg btn-danger" href="#!"
+                                        <div class="d-grid gap-2"><a class="btn btn-lg btn-danger" th:href="'http://localhost:8081/index/search-results/'+ ${food.getName()}"
                                                                      role="button">Order now</a></div>
                                     </div>
                                 </div>
@@ -637,9 +606,9 @@
             <section class="">
                 <p class="d-flex justify-content-center align-items-center">
                     <span class="me-3" style="font-size: x-large; color: black">Register for free</span>
-                    <button type="button" class="btn btn-outline-light btn-rounded" style="font-size: x-large; color: black">
+                    <a href="http://localhost:8081/register"><button type="button" class="btn btn-outline-light btn-rounded" style="font-size: x-large; color: black">
                         Sign up!
-                    </button>
+                    </button></a>
                 </p>
             </section>
             <!-- Section: CTA -->
@@ -659,6 +628,16 @@
 <!-- ===============================================-->
 <!--    End of Main Content-->
 <!-- ===============================================-->
+<script !src="">
+    function onLoadCartNumbers() {
+        let productNumbers = localStorage.getItem("cartNumbers");
+
+        document.querySelector(".basket span").textContent = productNumbers;
+    }
+
+    onLoadCartNumbers()
+
+</script>
 
 
 <!-- ===============================================-->
@@ -670,7 +649,9 @@
 <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
 <script src="vendors/fontawesome/all.min.js"></script>
 <script src="assets/js/theme.js"></script>
-<script src="assets/js/index-page.js"></script>
+
+
+
 
 
 </body>

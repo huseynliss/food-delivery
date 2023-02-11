@@ -1,0 +1,76 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Add page</title>
+    <link th:href="@{/css/adminPage.css}" rel="stylesheet" type="text/css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <style>
+        .product {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100vh;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        label, input {
+            margin: 10px;
+            display: inline-block;
+            width: 150px;
+            text-align: right;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header" style="text-align:center; ">
+        <h1 class="logo">foodWagon</h1>
+        <h5>for managers</h5>
+    </div>
+
+    <div class="product" >
+        <br>
+        <form action="#" th:action="@{/admin/addProduct}" th:object="${product}" method="post">
+            <h1>Add Product</h1>
+            <div>
+                <label for="name">Name:</label>
+                <input type="text" id="name"  th:field="*{name}" />
+            </div>
+            <div>
+                <label for="price">Price:</label>
+                <input type="number" id="price" th:field="*{price}" />
+            </div>
+            <div>
+                <label for="currency">Currency:</label>
+                <input type="text" id="currency" th:field="*{currency}" />
+            </div>
+            <div>
+                <label for="image">Image:</label>
+                <input type="text" id="image" th:field="*{image}" />
+            </div>
+            <div>
+                <label for="image">Location:</label>
+                <input type="text" id="location" th:field="*{locationEntity.location}" />
+            </div>
+            <div>
+                <label for="image">Restaurant image:</label>
+                <input type="text" id="restaurantLogo" th:field="*{locationEntity.restaurantLogo}" />
+            </div>
+            <div>
+                <input type="submit" value="Submit" style="text-align: center; margin-left: 20px;" />
+            </div>
+        </form>
+
+    </div>
+</div>
+</body>
+</html>
